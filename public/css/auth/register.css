@@ -1,0 +1,51 @@
+/* Estilos para formulario de registro - Internado */
+
+.register-page {
+    background: #f5f9f7;
+}
+
+.register-card {
+    max-width: 860px;
+    margin: auto;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #d6e4dc;
+}
+
+.card-header {
+    padding: 1rem 1.5rem;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.section-title {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #d0d0d0;
+    padding-bottom: 0.3rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #004d28;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.invalid-feedback {
+    font-size: 0.85rem;
+    color: #d93025;
+}
+
+button.btn-success {
+    border-radius: 8px;
+    font-weight: 600;
+}
+.btn-success:hover {
+    background-color: #005f3d;
+}

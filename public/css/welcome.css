@@ -1,0 +1,73 @@
+/* —— Paleta SENA ——————————————————— */
+:root {
+    --sena-dark: #00361a;
+    --sena-green: #00592d;
+    --sena-light: #e7f5ee;
+    --sena-accent: #ffc107;
+}
+
+/* —— Hero ———————————————————————— */
+.landing-section {
+    background: linear-gradient(
+        130deg,
+        var(--sena-green) 0%,
+        var(--sena-dark) 100%
+    );
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.landing-section h1 {
+    font-size: 3.2rem;
+}
+.landing-section .lead {
+    font-size: 1.1rem;
+}
+
+/* —— Info-box ———————————————————— */
+.info-box {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 3px solid transparent;
+}
+.info-box:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+    border-color: var(--sena-green);
+}
+
+/* —— Botón principal ——————————— */
+.btn-main {
+    border: 2px solid #fff !important;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+.btn-main:hover {
+    color: var(--sena-dark) !important;
+    background: #fff !important;
+    transform: translateY(-2px);
+}
+
+/* —— Wave decorativa ——————————— */
+.wave svg {
+    display: block;
+    width: 100%;
+}
+
+/* —— Tarjetas de módulos ————————— */
+.card.zoom {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border-width: 0 !important;
+}
+.card.zoom:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.16);
+}
+.card-header {
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+.card-body {
+    background: var(--sena-light);
+}

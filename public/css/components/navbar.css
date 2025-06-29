@@ -1,0 +1,40 @@
+/* Estilo llamativo para menú lateral */
+.main-sidebar {
+    background: linear-gradient(to bottom right, #145c39, #198754);
+}
+
+.nav-sidebar .nav-link {
+    background-color: transparent;
+    color: #ffffff;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
+    margin-bottom: 4px;
+}
+
+.nav-sidebar .nav-link:hover {
+    background-color: #157347;
+    color: #ffffff;
+    transform: scale(1.03);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.nav-sidebar .nav-item.menu > .nav-link {
+    background-color: #0f5132;
+    border-left: 4px solid #e4ffe4;
+}
+
+.nav-sidebar .nav-treeview .nav-link {
+    background-color: #145c39;
+    margin-left: 15px;
+}
+
+.nav-sidebar .nav-treeview .nav-link:hover {
+    background-color: #198754;
+}
+
+.nav-sidebar .nav-icon,
+.nav-sidebar .fas,
+.nav-sidebar .far {
+    color: #e4ffe4;
+}
