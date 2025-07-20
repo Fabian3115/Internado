@@ -39,7 +39,9 @@
                         <option value="" disabled selected>Seleccione un aprendiz</option>
                         @foreach ($aprendices as $aprendiz)
                             <option value="{{ $aprendiz->id }}">
-                                {{ $aprendiz->person->name ?? 'Sin nombre' }}
+                                {{ $aprendiz->person->full_name ?? 'Sin nombre' }} --
+                                {{ $aprendiz->program->technical_sheet ?? 'Sin Ficha' }} --
+                                {{ $aprendiz->program->initials ?? 'Sin Sigla' }}
                             </option>
                         @endforeach
                     </select>

@@ -52,8 +52,12 @@
                     <select name="apprentice_id" id="apprentice_id" required>
                         <option value="" disabled selected>Seleccione un aprendiz</option>
                         @foreach ($aprendices as $aprendiz)
-                            <option value="{{ $aprendiz->id }}" {{ old('apprentice_id') == $aprendiz->id ? 'selected' : '' }}>
-                                {{ $aprendiz->person->name ?? 'Sin nombre' }}
+                            <option value="{{ $aprendiz->id }}"
+                                {{ old('apprentice_id') == $aprendiz->id ? 'selected' : '' }}>
+                                {{ $aprendiz->person->full_name ?? 'Sin nombre' }} --
+                                {{ $aprendiz->program->technical_sheet ?? 'Sin Ficha' }} --
+                                {{ $aprendiz->program->initials ?? 'Sin Sigla' }}
+
                             </option>
                         @endforeach
                     </select>
@@ -62,15 +66,14 @@
                 {{-- Fecha --}}
                 <div class="form-group">
                     <label for="date">📅 Fecha del Incidente</label>
-                    <input type="date" name="date" id="date"
-                           value="{{ old('date', now()->toDateString()) }}" required>
+                    <input type="date" name="date" id="date" value="{{ old('date', now()->toDateString()) }}"
+                        required>
                 </div>
 
                 {{-- Tipo de incidente --}}
                 <div class="form-group">
                     <label for="incident">⚠️ Tipo de Incidente</label>
-                    <input type="text" name="incident" id="incident"
-                           value="{{ old('incident') }}" required>
+                    <input type="text" name="incident" id="incident" value="{{ old('incident') }}" required>
                 </div>
 
                 {{-- Descripción --}}

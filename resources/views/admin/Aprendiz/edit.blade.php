@@ -48,19 +48,6 @@
                     @csrf
                     @method('PUT')
 
-                    {{-- Beneficio --}}
-                    <div class="form-group mb-3">
-                        <label for="benefit_id">🎁 Beneficio</label>
-                        <select name="benefit_id" id="benefit_id" required>
-                            @foreach ($benefits as $benefit)
-                                <option value="{{ $benefit->id }}"
-                                    {{ old('benefit_id', $apprentice->benefit_id) == $benefit->id ? 'selected' : '' }}>
-                                    {{ $benefit->percentage }} % – {{ $benefit->total_hours }} h
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     {{-- Persona --}}
                     <div class="form-group mb-3">
                         <label for="person_id">👤 Persona</label>

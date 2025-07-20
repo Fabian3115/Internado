@@ -71,7 +71,7 @@
                     <select name="mode" id="mode" required>
                         <option value="" disabled selected>Seleccione una modalidad</option>
                         <option value="Presencial" {{ old('mode') == 'Presencial' ? 'selected' : '' }}>Presencial</option>
-                        <option value="Virtual"    {{ old('mode') == 'Virtual'    ? 'selected' : '' }}>Virtual</option>
+                        <option value="Virtual"    {{ old('mode') == 'Virtual'    ? 'selected' : '' }} disabled>Virtual</option>
                     </select>
                 </div>
 

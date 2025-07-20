@@ -49,3 +49,10 @@ button.btn-success {
 .btn-success:hover {
     background-color: #005f3d;
 }
+
+#preview-image {
+    transition: transform 0.3s ease;
+}
+#preview-image:hover {
+    transform: scale(1.05);
+}

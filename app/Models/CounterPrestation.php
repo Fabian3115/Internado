@@ -13,7 +13,6 @@ class CounterPrestation extends Model
         'apprentice_id',
         'hours',
         'activity_date',
-        'activity_description',
         'total_hours',
         'recorded_by',
     ];

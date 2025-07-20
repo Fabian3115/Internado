@@ -13,7 +13,7 @@ class ApprenticeController extends Controller
     public function listado()
     {
         // Aquí puedes implementar la lógica para mostrar el listado de asistencias
-        $apprentices = Apprentice::with(['benefit', 'person', 'program'])
+        $apprentices = Apprentice::with(['person', 'program'])
             ->latest() // ordenar por la fecha más reciente
             ->paginate(15); // paginación Bootstrap
         return view('admin.Aprendiz.index', compact('apprentices'));
@@ -23,16 +23,16 @@ class ApprenticeController extends Controller
         // Aquí puedes implementar la lógica para mostrar el formulario de creación de asistencias
         // Puedes pasar los datos necesarios al formulario, como beneficios, personas, programas, etc.
         // Por ejemplo, si tienes modelos para beneficios, personas y programas, puedes pasarlos así
-        $benefits = Benefit::all();
-        $people = Person::all();
+       $people = Person::whereHas('user', fn ($q) => $q->where('role', 'aprendiz'))
+                    ->orderBy('name')   // opcional: para que salgan ordenadas
+                    ->get();
         $programs = Program::all();
-        return view('admin.Aprendiz.create', compact('benefits', 'people','programs'));
+        return view('admin.Aprendiz.create', compact('people','programs'));
     }
     public function store(Request $request)
     {
         // Aquí puedes implementar la lógica para almacenar un nuevo aprendiz
         $request->validate([
-            'benefit_id' => 'required|exists:benefits,id',
             'person_id' => 'required|exists:people,id',
             'program_id' => 'required|exists:programs,id',
             'state' => 'required|in:Activo,Inactivo','Graduado,Retirado',
@@ -48,16 +48,14 @@ class ApprenticeController extends Controller
     {
         // Aquí puedes implementar la lógica para mostrar el formulario de edición de un aprendiz
         $apprentice = Apprentice::findOrFail($id);
-        $benefits = Benefit::all();
         $people = Person::all();
         $programs = Program::all();
-        return view('admin.Aprendiz.edit', compact('apprentice', 'benefits', 'people', 'programs'));
+        return view('admin.Aprendiz.edit', compact('apprentice', 'people', 'programs'));
     }
     public function update(Request $request, $id)
     {
         // Aquí puedes implementar la lógica para actualizar un aprendiz existente
         $request->validate([
-            'benefit_id' => 'required|exists:benefits,id',
             'person_id' => 'required|exists:people,id',
             'program_id' => 'required|exists:programs,id',
             'state' => 'required|in:active,inactive',

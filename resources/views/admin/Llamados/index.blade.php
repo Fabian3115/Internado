@@ -48,7 +48,9 @@
                 @forelse ($llamados as $incident)
                     <tr>
                         <td>{{ $incident->id }}</td>
-                        <td>{{ $incident->apprentice->person->name ?? 'Sin nombre' }}</td>
+                        <td>{{ $incident->apprentice->person->full_name ?? 'Sin nombre' }}
+                            <a href="#" class="ver-llamados" data-id="{{ $incident->apprentice_id }}"></a>
+                        </td>
                         <td>{{ \Carbon\Carbon::parse($incident->date)->format('d/m/Y') }}</td>
                         <td>{{ $incident->incident }}</td>
                         <td>{{ Str::limit($incident->description, 40) }}</td>

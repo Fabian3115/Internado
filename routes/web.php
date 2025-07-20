@@ -52,6 +52,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::put('/Asistencia/update/{id}', [AttendanceController::class, 'update'])->name('admin.asistencia.update');
         Route::delete('/Asistencia/destroy/{id}', [AttendanceController::class, 'destroy'])->name('admin.asistencia.destroy');
 
+
         //Rutas de   llamado de Atención
         Route::get('/Llamado-Atención', [AttentationController::class, 'listado'])->name('admin.atencion.index');
         Route::get('/Llamado-Atención/create', [AttentationController::class, 'create'])->name('admin.atencion.create');
@@ -64,16 +65,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/Contra-Prestación', [CounterPrestationController::class, 'listado'])->name('admin.contra_prestacion.index');
         Route::get('/Contra-Prestación/create', [CounterPrestationController::class, 'create'])->name('admin.contra_prestacion.create');
         Route::post('/Contra-Prestación/store', [CounterPrestationController::class, 'store'])->name('admin.contra_prestacion.store');
+        Route::get('/Contra-Prestación/edit/{id}', [CounterPrestationController::class, 'edit'])->name('admin.contra_prestacion.edit');
+        Route::put('/Contra-Prestación/update/{id}', [CounterPrestationController::class, 'update'])->name('admin.contra_prestacion.update');
+        Route::delete('/Contra-Prestación/destroy/{id}', [CounterPrestationController::class, 'destroy'])->name('admin.contra_prestacion.destroy');
 
-        //Rutas de Gestión de Beneficios
-        Route::get('/Beneficios', [BenefitController::class, 'listado'])->name('admin.beneficio.index');
-        Route::get('/Beneficios/create', [BenefitController::class, 'create'])->name('admin.beneficio.create');
-        Route::post('/Beneficios/store', [BenefitController::class, 'store'])->name('admin.beneficio.store');
-        Route::get('/Beneficios/edit/{id}', [BenefitController::class, 'edit'])->name('admin.beneficio.edit');
-        Route::put('/Beneficios/update/{id}', [BenefitController::class, 'update'])->name('admin.beneficio.update');
-        Route::delete('/Beneficios/destroy/{id}', [BenefitController::class, 'destroy'])->name('admin.beneficio.destroy');
-
-        //Rutas de Progeramas de Formación
+        //Rutas de Programas de Formación
         Route::get('/Programas-Formación', [ProgramController::class, 'listado'])->name('admin.programa.index');
         Route::get('/Programas-Formación/create', [ProgramController::class, 'create'])->name('admin.programa.create');
         Route::post('/Programas-Formación/store', [ProgramController::class, 'store'])->name('admin.programa.store');

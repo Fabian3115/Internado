@@ -65,18 +65,22 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            // datos de person
+            // Datos de la Persona
             'name'            => 'required|string|max:100',
             'last_name'       => 'required|string|max:100',
             'type_document'   => 'required|in:CC,TI,CE,PP,RC',
             'number_document' => 'required|string|max:30|unique:people,number_document',
             'number_phone'    => 'required|string|max:20',
             'gender'          => 'required|in:M,F',
-            // datos de user
+
+            // Datos de usuario
             'nickname' => 'required|string|max:50|unique:users,nickname',
             'email'    => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'role'     => 'required|in:admin,aprendiz',
+
+            // Imagen
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     }
 
@@ -100,6 +104,15 @@ class RegisterController extends Controller
                 'gender'          => $data['gender'],
             ]);
 
+            // 2) Procesar imagen (si existe)
+            $profilePhotoPath = null;
+            if (request()->hasFile('profile_photo')) {
+                $file = request()->file('profile_photo');
+                $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/profile_photos'), $filename);
+                $profilePhotoPath = 'images/profile_photos/' . $filename;
+            }
+
             // 2) Insertamos en users con la FK
             return User::create([
                 'nickname'  => $data['nickname'],
@@ -107,6 +120,7 @@ class RegisterController extends Controller
                 'password'  => Hash::make($data['password']),
                 'role'      => $data['role'],
                 'person_id' => $person->id,   // 🔗
+                'profile_photo_path'  => $profilePhotoPath,
             ]);
         });
     }

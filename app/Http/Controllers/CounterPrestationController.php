@@ -12,17 +12,32 @@ class CounterPrestationController extends Controller
 {
     public function listado()
     {
-        //Listado de horas de Contra-Prestación para el administrador
         $horas = CounterPrestation::with('apprentice.person')
             ->latest()
             ->paginate(10);
+
         return view('admin.Contra-Prestacion.index', compact('horas'));
+    }
+
+    public function historial(Request $request)
+    {
+        $search = $request->input('search');
+
+        $registros = CounterPrestation::with('apprentice.person')
+            ->where('total_hours', '>=', 40)
+            ->when($search, function ($query) use ($search) {
+                $query->whereHas('apprentice.person', function ($q) use ($search) {
+                    $q->where(DB::raw("CONCAT(name, ' ', last_name)"), 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('activity_date', 'desc')
+            ->paginate(10);
+
+        return view('admin.Contra-Prestacion.historial', compact('registros'));
     }
 
     public function aprendiz_index()
     {
-        //Listado de horas de Contra-Prestación para el aprendiz
-        // Obtenemos el ID de la persona autenticada
         $personId = Auth::user()->person_id;
 
         $horas = CounterPrestation::with('apprentice.person')
@@ -32,51 +47,105 @@ class CounterPrestationController extends Controller
 
         return view('admin.Contra-Prestacion.index', compact('horas'));
     }
+
     public function create()
     {
-        // Cargar los aprendices para el formulario
         $aprendices = Apprentice::with('person')
-                    ->where('state', 'Activo')// Filtrar solo aprendices activos
-                    ->orderBy('id', 'asc')    // Ordenar por ID ascendente
-                    ->get();
+            ->where('state', 'Activo')
+            ->orderBy('id', 'asc')
+            ->get();
         return view('admin.Contra-Prestacion.create', compact('aprendices'));
     }
+
     public function store(Request $request)
     {
-         // 1️⃣ Validación
         $request->validate([
             'apprentice_id'        => 'required|exists:apprentices,id',
             'hours'                => 'required|numeric|min:1',
             'activity_date'        => 'required|date',
-            'activity_description' => 'nullable|string|max:255',
         ]);
 
-        // 2️⃣ Operación atómica por seguridad
         DB::transaction(function () use ($request) {
+            $registro = CounterPrestation::where('apprentice_id', $request->apprentice_id)
+                ->where('estado', 'activo')
+                ->first();
 
-            // 2.1 Obtenemos el total acumulado más reciente del aprendiz (0 si nunca ha cargado horas)
-            $lastRecord = CounterPrestation::where('apprentice_id', $request->apprentice_id)
-                            ->latest('id')           // más eficiente que latest() sin columna
-                            ->first();
+            if ($registro) {
+                $registro->hours += $request->hours;
+                $registro->total_hours += $request->hours;
+                $registro->activity_date = $request->activity_date;
+                $registro->recorded_by = Auth::id();
 
-            $previousTotal = $lastRecord ? $lastRecord->total_hours : 0;
+                if ($registro->total_hours >= 40) {
+                    $registro->estado = 'finalizado';
+                }
 
-            // 2.2 Calculamos el nuevo total
-            $newTotal = $previousTotal + $request->hours;
-
-            // 2.3 Creamos el registro
-            CounterPrestation::create([
-                'apprentice_id'        => $request->apprentice_id,
-                'hours'                => $request->hours,
-                'activity_date'        => $request->activity_date,
-                'activity_description' => $request->activity_description,
-                'total_hours'          => $newTotal,
-                'recorded_by'          => Auth::id(),   // o el id de quien registra
-            ]);
+                $registro->save();
+            } else {
+                CounterPrestation::create([
+                    'apprentice_id'        => $request->apprentice_id,
+                    'hours'                => $request->hours,
+                    'total_hours'          => $request->hours,
+                    'activity_date'        => $request->activity_date,
+                    'recorded_by'          => Auth::id(),
+                    'estado'               => 'activo',
+                ]);
+            }
         });
 
-        // 3️⃣ Redirección con mensaje
-        return redirect()->route('admin.contra_prestacion.index')->with('success', 'Horas registradas y acumuladas correctamente.');
+        return redirect()->route('admin.contra_prestacion.index')
+            ->with('success', 'Horas registradas correctamente.');
     }
 
+    public function edit($id)
+    {
+        $hora = CounterPrestation::with('apprentice.person')->findOrFail($id);
+        $aprendices = Apprentice::with('person')
+            ->where('state', 'Activo')
+            ->orderBy('id', 'asc')
+            ->get();
+        return view('admin.Contra-Prestacion.edit', compact('hora', 'aprendices'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'apprentice_id'        => 'required|exists:apprentices,id',
+            'hours'                => 'required|numeric|min:1',
+            'activity_date'        => 'required|date',
+        ]);
+
+        DB::transaction(function () use ($request, $id) {
+            $registro = CounterPrestation::findOrFail($id);
+
+            $oldHours = $registro->hours;
+            $registro->apprentice_id = $request->apprentice_id;
+            $registro->hours = $request->hours;
+            $registro->total_hours = $registro->total_hours - $oldHours + $request->hours;
+            $registro->activity_date = $request->activity_date;
+            $registro->recorded_by = Auth::id();
+
+            if ($registro->total_hours >= 40) {
+                $registro->estado = 'finalizado';
+            } else {
+                $registro->estado = 'activo';
+            }
+
+            $registro->save();
+        });
+
+        return redirect()->route('admin.contra_prestacion.index')
+            ->with('success', 'Registro actualizado correctamente.');
+    }
+
+    public function destroy($id)
+    {
+        DB::transaction(function () use ($id) {
+            $registro = CounterPrestation::findOrFail($id);
+            $registro->delete();
+        });
+
+        return redirect()->route('admin.contra_prestacion.index')
+            ->with('success', 'Registro eliminado correctamente.');
+    }
 }

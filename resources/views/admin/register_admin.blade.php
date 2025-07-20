@@ -14,7 +14,7 @@
         <div class="container">
             <div class="card register-card shadow">
                 <div class="card-header bg-success text-white text-center">
-                    <h4 class="mb-0">👤 Registro de Aprendiz</h4>
+                    <h4 class="mb-0">👤 Registro de Adminstrador</h4>
                 </div>
 
                 <div class="card-body">
@@ -173,7 +173,7 @@
                                     class="form-select @error('role') is-invalid @enderror" required>
                                     <option value="" disabled {{ old('role') ? '' : 'selected' }}>-- Seleccione --
                                     </option>
-                                    <option value="aprendiz" {{ old('role') === 'aprendiz' ? 'selected' : '' }}>Aprendiz
+                                    <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Administrador
                                     </option>
                                 </select>
                                 @error('role')
@@ -209,4 +209,17 @@
             </div>
         </div>
     </div>
+
+
+    <!--- Scripts--->
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('preview-image');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 @endsection

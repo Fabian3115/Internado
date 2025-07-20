@@ -47,19 +47,6 @@
                 <form action="{{ route('admin.aprendices.store') }}" method="POST" class="needs-validation" novalidate>
                     @csrf
 
-                    {{-- ==== Beneficio ==== --}}
-                    <div class="form-group mb-3">
-                        <label for="benefit_id">🎁 Beneficio</label>
-                        <select name="benefit_id" id="benefit_id" required>
-                            <option value="" disabled selected>Seleccione un beneficio</option>
-                            @foreach ($benefits as $benefit)
-                                <option value="{{ $benefit->id }}" {{ old('benefit_id') == $benefit->id ? 'selected' : '' }}>
-                                    {{ $benefit->percentage }} % – {{ $benefit->total_hours }} h
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     {{-- ==== Persona ==== --}}
                     <div class="form-group mb-3">
                         <label for="person_id">👤 Persona</label>
@@ -80,7 +67,7 @@
                             <option value="" disabled selected>Seleccione un programa</option>
                             @foreach ($programs as $program)
                                 <option value="{{ $program->id }}" {{ old('program_id') == $program->id ? 'selected' : '' }}>
-                                    {{ $program->program_name }}
+                                    {{ $program->program_name }} -- {{$program->technical_sheet}} -- {{ $program->initials }}
                                 </option>
                             @endforeach
                         </select>

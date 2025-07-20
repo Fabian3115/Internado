@@ -6,16 +6,43 @@ use App\Models\Apprentice;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
     public function listado()
     {
+        $hoy = Carbon::today()->toDateString();
+
         $asistencias = Attendance::with('apprentice.person')
-            ->latest() // ordenar por la fecha más reciente
-            ->paginate(15); // paginación Bootstrap
+        ->whereDate('attendance_date', $hoy) // solo asistencias de hoy
+        ->latest()
+        ->paginate(15);
+
         return view('admin.asistencia.index', compact('asistencias'));
     }
+
+    public function historial(Request $request)
+    {
+        $query = Attendance::with('apprentice.person');
+
+        // Filtro por nombre del aprendiz
+        if ($request->filled('nombre')) {
+        $query->whereHas('apprentice.person', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->nombre . '%')
+              ->orWhere('last_name', 'like', '%' . $request->nombre . '%');
+        });
+      }
+
+        if ($request->filled('fecha')) {
+        $query->whereDate('attendance_date', $request->fecha);
+      }
+      
+        $asistencias = $query->orderBy('attendance_date', 'desc')->paginate(20);
+
+        return view('admin.asistencia.historial', compact('asistencias'));
+    }
+
 
     public function aprendiz_index()
     {

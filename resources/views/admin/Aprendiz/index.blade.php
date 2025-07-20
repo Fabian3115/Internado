@@ -22,7 +22,6 @@
                 <tr>
                     <th>#</th>
                     {{-- Campos del modelo --}}
-                    <th>Porcentaje&nbsp;Beneficio</th>
                     <th>Persona&nbsp;ID</th>
                     <th>Programa&nbsp;ID</th>
                     <th>Estado</th>
@@ -38,8 +37,7 @@
                     <tr>
                         {{-- IDs y valores puros del modelo --}}
                         <td>{{ $apprentice->id }}</td>
-                        <td>{{ $apprentice->benefit->percentage }} %</td>
-                        <td>{{ $apprentice->person->name }}</td>
+                        <td>{{ $apprentice->person->full_name }}</td>
                         <td>{{ $apprentice->program->program_name }}</td>
 
                         {{-- Estado con badge --}}

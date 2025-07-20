@@ -18,11 +18,17 @@ class Person extends Model
         'gender',
     ];
 
+    public function getFullNameAttribute()
+    {
+        return "{$this->name} {$this->last_name}";
+    }
+
+
     public function apprentices()
     {
         return $this->hasMany(Apprentice::class);
     }
-    
+
     public function user()
     {
         return $this->hasOne(User::class);

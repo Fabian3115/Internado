@@ -22,7 +22,7 @@
                 </div>
                 <div class="info-box bg-white text-dark p-4 rounded">
                     <h5 class="fw-bold mb-2">⏱️ Horas de Contraprestación</h5>
-                    <p class="mb-0 small">Visualiza tu progreso hacia las 40 u 80 horas requeridas.</p>
+                    <p class="mb-0 small">Visualiza tu progreso hacia las 40 horas requeridas.</p>
                 </div>
                 <div class="info-box bg-white text-dark p-4 rounded">
                     <h5 class="fw-bold mb-2">⚖️ Seguimiento Disciplinario</h5>
@@ -64,7 +64,7 @@
                 </div>
                 <div class="card-body">
                     <p class="card-text small mb-0">
-                        Registra tus actividades de apoyo y revisa en tiempo real las horas acumuladas hasta llegar a las 40 u 80 requeridas.
+                        Registra tus actividades de apoyo y revisa en tiempo real las horas acumuladas hasta llegar a las 40 requeridas.
                     </p>
                 </div>
             </div>

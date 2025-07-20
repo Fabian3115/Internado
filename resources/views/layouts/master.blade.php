@@ -1,374 +1,231 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="{{ asset('images/logo_sena.png') }}" type="image/x-icon">
-    <title>Gestion de Desplzamiento de Funcionario</title>
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-        href="{{ asset('AdminLTE/https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback') }}">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <title>Gestión de Desplazamiento</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tabler Icons -->
+    <link href="https://unpkg.com/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" rel="stylesheet">
 
 
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/adminlte.min.css') }}">
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="{{ asset('AdminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-
-    <!-- Css Personalizado -->
-    <link rel="stylesheet" href="{{ asset('css/layouts/master.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/navbar.css') }}">
-
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-    <div class="wrapper">
-        <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="{{ asset('/images/Contacto/images.png') }}" alt="AdminLTELogo"
-                height="100" width="150">
-        </div>
-        <nav class="main-header navbar navbar-expand navbar-dark">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
-                </li>
-
-            </ul>
-            <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-                @auth
-                    <div class="dropdown" id="userDropdownContainer" style="margin-left: auto; margin-right: 30px;">
-                        <button class="dropdown-toggle" onclick="toggleDropdown()">👤 {{ Auth::user()->nickname }}</button>
-                        <div class="dropdown-menu" id="userDropdown">
-                            <a href="{{ route('logout') }}" class="nav-link"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fas fa-lock"></i> Cerrar Sesión
-                            </a>
-                        </div>
-                    </div>
-
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                @endauth
-            </ul>
-        </nav>
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
-            <a href="#" class="brand-link">
-                <img src="{{ asset('/images/logo_sena.png') }}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">INTERNADO</span>
-            </a>
-            <div class="sidebar">
-                <!-- Sidebar user panel -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
-                    <div class="image">
-                        <img src="{{ asset('images/profile_photos/Mamacita.jpg') }}" alt="Foto de {{ Auth::user()->nickname }}"
-                            class="img-circle elevation-2" style="object-fit: cover; width: 35px; height: 35px;">
-                    </div>
-
-                    <div class="info">
-                        <a href="#" class="d-block">
-                            {{ Auth::user()->nickname }}
-                        </a>
-                    </div>
-                </div>
-                <!-- SidebarSearch Form -->
-                <div class="form-inline">
-                    <div class="input-group" data-widget="sidebar-search">
-                        <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-sidebar">
-                                <i class="fas fa-search fa-fw"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
-
-                        <!--Aqui va la ruta para la vista del Admin-->
-                        @if (Auth::user()->role === 'admin')
-                            <li class="nav-item menu">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas fa-file-signature"></i>&nbsp;
-                                    <p>
-                                        Asistencias
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.asistencia.create') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-plus-circle"></i>
-                                            <p>Tomar la Asistencia</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.asistencia.index') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-tasks"></i>
-                                            <p>Lista de Asistencia</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item menu">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas fa-users"></i>&nbsp;
-                                    <p>
-                                        Aprendices
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.aprendices.create') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-plus-circle"></i>
-                                            <p>Añadir información del Aprendiz</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.aprendices.index') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-tasks"></i>
-                                            <p>Lista de Aprendices</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item menu">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas fa-users"></i>&nbsp;
-                                    <p>
-                                        Contra Prestaciones
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.contra_prestacion.create') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-plus-circle"></i>
-                                            <p>Añadir horas al Aprendiz</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.contra_prestacion.index') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-tasks"></i>
-                                            <p>Lista horas de los Aprendices</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item menu">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas fa-users"></i>&nbsp;
-                                    <p>
-                                        Llamados de Atención
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.atencion.create') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-plus-circle"></i>
-                                            <p>Añadir llamado de atención al Aprendiz</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.atencion.index') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-tasks"></i>
-                                            <p>Lista de llamados de atención de los Aprendices</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item menu">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas fa-users"></i>&nbsp;
-                                    <p>
-                                        Porcentaje de Beneficio
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.beneficio.create') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-plus-circle"></i>
-                                            <p>Añadir porcentaje de beneficio</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.beneficio.index') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-tasks"></i>
-                                            <p>Lista de Porcentaje de Beneficio</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item menu">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas fa-users"></i>&nbsp;
-                                    <p>
-                                        Programas de Formación
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.programa.create') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-plus-circle"></i>
-                                            <p>Añadir programa de formación</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.programa.index') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-tasks"></i>
-                                            <p>Lista de programas de formación</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-
-                        <!--Aqui va la ruta para la vista del Aprendiz-->
-                        @if (Auth::user()->role === 'aprendiz')
-                            <li class="nav-item menu">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas fa-file-signature"></i>&nbsp;
-                                    <p>
-                                        Asistencias
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('aprendiz.atencion.index') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-tasks"></i>
-                                            <p>Listado de Asistencia del aprendiz</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item menu">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas fa-users"></i>&nbsp;
-                                    <p>
-                                        Contra Prestaciones
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('aprendiz.contra_prestacion.index') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-tasks"></i>
-                                            <p>Listado de horas del aprendiz</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item menu">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas fa-users"></i>&nbsp;
-                                    <p>
-                                        Llamados de Atención
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('aprendiz.atencion.index') }}" class="nav-link">
-                                            <i class="nav-icon fas fa-tasks"></i>
-                                            <p>Lista de llamados de atención de al Aprendiz</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-                    </ul>
-                </nav>
-            </div>
-        </aside>
-        <div class="content-wrapper">
-            @yield('content')
-        </div>
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <footer class="main-footer"
-            style="width: 100%; position: fixed; bottom: 0; left: 0; background-color: #343a40; color: white; padding: 10px 20px;">
-            <strong>Copyright © 2023-2025
-                <a href="#" style="color: #3c8dbc;">INTERNADO</a>.
-            </strong>
-            <strong>Aprendices SENA de la Tecnología de Desarrollo de Software
-                <a href="#" style="color: #D2160DFF;">Ficha: 2847386.</a>.
-            </strong>
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.2.0
-            </div>
-        </footer>
-    </div>
-    <!-- jQuery -->
-    <script src="{{ asset('AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="{{ asset('AdminLTE/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ asset('AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- overlayScrollbars -->
-    <script src="{{ asset('AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ asset('AdminLTE/dist/js/adminlte.js') }}"></script>
-    <!-- PAGE PLUGINS -->
-    <!-- jQuery Mapael -->
-    <script src="{{ asset('AdminLTE/plugins/jquery-mousewheel/jquery.mousewheel.js') }}"></script>
-    <script src="{{ asset('AdminLTE/plugins/raphael/raphael.min.js') }}"></script>
-    <script src="{{ asset('AdminLTE/plugins/jquery-mapael/jquery.mapael.min.js') }}"></script>
-    <script src="{{ asset('AdminLTE/plugins/jquery-mapael/maps/usa_states.min.js') }}"></script>
-    <!-- ChartJS -->
-    <script src="{{ asset('AdminLTE/plugins/chart.js/Chart.min.js') }}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('AdminLTE/dist/js/demo.js') }}"></script>
-    <!-- AdminLTE dashboard demo -->
-    <script src="{{ asset('AdminLTE/dist/js/pages/dashboard2.js') }}"></script>
-    <script>
-        function toggleDropdown() {
-            const dropdown = document.getElementById("userDropdownContainer");
-            dropdown.classList.toggle("show");
+    <style>
+        :root {
+            --verde-sena: #39A900;
+            --gris-fondo: #f9fafb;
+            --hover-light: #e9f5eb;
         }
 
-        // Cerrar el dropdown si se hace clic fuera
-        window.addEventListener("click", function(e) {
-            if (!document.getElementById("userDropdownContainer").contains(e.target)) {
-                document.getElementById("userDropdownContainer").classList.remove("show");
-            }
-        });
+        body {
+            background: var(--gris-fondo);
+            font-family: 'Segoe UI', sans-serif;
+            padding-top: 70px;
+        }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const links = document.querySelectorAll(".nav-sidebar .nav-link");
-            links.forEach(link => {
-                link.addEventListener("mouseover", () => link.style.transform = "scale(1.02)");
-                link.addEventListener("mouseout", () => link.style.transform = "scale(1)");
-            });
-        });
-    </script>
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #eaeaea;
+            padding: 0.8rem 1rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
 
+        .navbar-brand img {
+            height: 35px;
+        }
+
+        .nav-link {
+            color: #333;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-link i {
+            font-size: 18px;
+        }
+
+        .nav-link:hover {
+            background: var(--hover-light);
+            color: var(--verde-sena);
+        }
+
+        .dropdown-menu {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--hover-light);
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--verde-sena);
+        }
+
+        footer {
+            background: #343a40;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ✅ Navbar Superior con Dropdowns -->
+    <nav class="navbar navbar-expand-lg shadow-sm">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('images/logo_sena.png') }}" alt="Logo">
+                INTERNADO
+            </a>
+
+            <!-- Botón responsive -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menú -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    @if (Auth::user()->role === 'admin')
+                        <!-- Asistencias -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i
+                                    class="ti ti-calendar"></i> Asistencias</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('admin.asistencia.create') }}"><i
+                                            class="ti ti-pencil"></i> Tomar Asistencia</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.asistencia.index') }}"><i
+                                            class="ti ti-history"></i> Historial</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Aprendices -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i
+                                    class="ti ti-users"></i> Aprendices</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('admin.aprendices.create') }}"><i
+                                            class="ti ti-user-plus"></i> Añadir Aprendiz</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.aprendices.index') }}"><i
+                                            class="ti ti-user"></i> Lista de Aprendices</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Contra Prestaciones -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i
+                                    class="ti ti-clock"></i> Contra Prestaciones</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('admin.contra_prestacion.create') }}"><i
+                                            class="ti ti-plus"></i> Añadir Horas</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.contra_prestacion.index') }}"><i class="ti ti-history"></i> Historial</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- Llamados de Atención -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i
+                                    class="ti ti-alert-circle"></i> Llamados de Atención</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('admin.atencion.create') }}"><i
+                                            class="ti ti-plus"></i> Añadir Llamado</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.atencion.index') }}"><i
+                                            class="ti ti-list-details"></i> Lista de Llamados</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Programas de Formación -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i
+                                    class="ti ti-book"></i> Programas</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('admin.programa.create') }}"><i
+                                            class="ti ti-plus"></i> Añadir Programa</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.programa.index') }}"><i
+                                            class="ti ti-list"></i> Lista de Programas</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Administradores -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i
+                                    class="ti ti-user-shield"></i> Administradores</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="ti ti-user-plus"></i> Crear
+                                        Administrador</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="ti ti-users"></i> Lista de
+                                        Administradores</a></li>
+                            </ul>
+                        </li>
+                    @endif
+
+                    @if (Auth::user()->role === 'aprendiz')
+                        <!-- Aprendiz Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i
+                                    class="ti ti-school"></i> Mis Opciones</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('aprendiz.asistencia.index') }}"><i
+                                            class="ti ti-calendar"></i> Mis Asistencias</a></li>
+                                <li><a class="dropdown-item"
+                                        href="{{ route('aprendiz.contra_prestacion.index') }}"><i
+                                            class="ti ti-clock"></i> Mis Horas</a></li>
+                                <li><a class="dropdown-item" href="{{ route('aprendiz.atencion.index') }}"><i
+                                            class="ti ti-alert-circle"></i> Mis Llamados</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                    @auth
+                        {{-- ✅ Botón Cerrar Sesión --}}
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mt-3">
+                            @csrf
+                            <button type="submit" class="btn-logout"><i class="ti ti-logout"></i> Cerrar sesión</button>
+                        </form>
+                    @endauth
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ✅ Contenido -->
+    <div class="container mt-4">
+        @yield('content')
+    </div>
+
+    <!-- ✅ Footer -->
+    <footer>
+        <strong>© 2025 INTERNADO - SENA | Ficha 2847386</strong>
+    </footer>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

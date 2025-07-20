@@ -55,7 +55,7 @@
                             @else
                                 <li style="margin-right: 20px;">
                                     <a class="nav-link" href="{{ route('login') }}">
-                                        <i class="fas fa-home"></i> Inicio
+                                        <i class="fas fa-home"></i> Iniciar Sessión
                                     </a>
                                 </li>
                             @endauth

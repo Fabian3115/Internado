@@ -52,8 +52,11 @@
                     <select name="apprentice_id" id="apprentice_id" required>
                         <option value="" selected disabled>Seleccione un aprendiz</option>
                         @foreach ($aprendices as $aprendiz)
-                            <option value="{{ $aprendiz->id }}" {{ old('apprentice_id') == $aprendiz->id ? 'selected' : '' }}>
-                                {{ $aprendiz->person->name ?? 'Sin nombre' }}
+                            <option value="{{ $aprendiz->id }}"
+                                {{ old('apprentice_id') == $aprendiz->id ? 'selected' : '' }}>
+                                {{ $aprendiz->person->full_name ?? 'Sin nombre' }} --
+                                {{ $aprendiz->program->technical_sheet ?? 'Sin Ficha' }} --
+                                {{ $aprendiz->program->initials ?? 'Sin Sigla' }}
                             </option>
                         @endforeach
                     </select>
@@ -63,20 +66,14 @@
                 <div class="form-group">
                     <label for="hours">⏳ Horas Registradas</label>
                     <input type="number" step="0.1" min="0" name="hours" id="hours"
-                           value="{{ old('hours') }}" required>
+                        value="{{ old('hours') }}" required>
                 </div>
 
                 {{-- Fecha de la actividad --}}
                 <div class="form-group">
                     <label for="activity_date">📅 Fecha de la Actividad</label>
                     <input type="date" name="activity_date" id="activity_date"
-                           value="{{ old('activity_date', now()->toDateString()) }}" required>
-                </div>
-
-                {{-- Descripción --}}
-                <div class="form-group">
-                    <label for="activity_description">📝 Descripción</label>
-                    <textarea name="activity_description" id="activity_description" rows="3" required>{{ old('activity_description') }}</textarea>
+                        value="{{ old('activity_date', now()->toDateString()) }}" required>
                 </div>
 
                 {{-- Campos ocultos --}}

@@ -18,11 +18,6 @@ class Apprentice extends Model
         'Tutor_number_phone',
     ];
 
-    public function benefit()
-    {
-        return $this->belongsTo(Benefit::class);
-    }
-
     public function person()
     {
         return $this->belongsTo(Person::class);
@@ -42,7 +37,7 @@ class Apprentice extends Model
     {
         return $this->hasMany(Attention::class);
     }
-    
+
     public function counterPrestations()
     {
         return $this->hasMany(CounterPrestation::class);

@@ -18,7 +18,6 @@ class CreateCounterPrestationsTable extends Migration
             $table->foreignId('apprentice_id')->constrained()->onDelete('cascade');
             $table->integer('hours');
             $table->date('activity_date');
-            $table->text('activity_description');
             $table->integer('total_hours')->default(0)->nullable();
             $table->foreignId('recorded_by')->nullable()->constrained('users');
             $table->timestamps();

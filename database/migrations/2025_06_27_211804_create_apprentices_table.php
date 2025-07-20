@@ -15,7 +15,7 @@ class CreateApprenticesTable extends Migration
     {
         Schema::create('apprentices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('benefit_id')->constrained()->onDelete('cascade');
+            $table->foreignId('benefit_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('person_id')->constrained()->onDelete('cascade')->unique();
             $table->foreignId('program_id')->constrained()->onDelete('cascade')->unique();
             $table->enum('state', ['Activo', 'Inactivo', 'Graduado', 'Retirado'])->default('Activo');

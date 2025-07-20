@@ -54,7 +54,7 @@
                         @foreach ($aprendices as $aprendiz)
                             <option value="{{ $aprendiz->id }}"
                                 {{ old('apprentice_id', $incident->apprentice_id) == $aprendiz->id ? 'selected' : '' }}>
-                                {{ $aprendiz->person->name ?? 'Sin nombre' }}
+                                {{ $aprendiz->person->full_name ?? 'Sin nombre' }}
                             </option>
                         @endforeach
                     </select>
