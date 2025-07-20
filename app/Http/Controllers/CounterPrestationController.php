@@ -19,23 +19,6 @@ class CounterPrestationController extends Controller
         return view('admin.Contra-Prestacion.index', compact('horas'));
     }
 
-    public function historial(Request $request)
-    {
-        $search = $request->input('search');
-
-        $registros = CounterPrestation::with('apprentice.person')
-            ->where('total_hours', '>=', 40)
-            ->when($search, function ($query) use ($search) {
-                $query->whereHas('apprentice.person', function ($q) use ($search) {
-                    $q->where(DB::raw("CONCAT(name, ' ', last_name)"), 'like', "%{$search}%");
-                });
-            })
-            ->orderBy('activity_date', 'desc')
-            ->paginate(10);
-
-        return view('admin.Contra-Prestacion.historial', compact('registros'));
-    }
-
     public function aprendiz_index()
     {
         $personId = Auth::user()->person_id;
@@ -45,7 +28,7 @@ class CounterPrestationController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('admin.Contra-Prestacion.index', compact('horas'));
+        return view('aprendiz.Contra-Prestacion.index', compact('horas'));
     }
 
     public function create()

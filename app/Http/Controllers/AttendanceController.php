@@ -22,28 +22,6 @@ class AttendanceController extends Controller
         return view('admin.asistencia.index', compact('asistencias'));
     }
 
-    public function historial(Request $request)
-    {
-        $query = Attendance::with('apprentice.person');
-
-        // Filtro por nombre del aprendiz
-        if ($request->filled('nombre')) {
-        $query->whereHas('apprentice.person', function ($q) use ($request) {
-            $q->where('name', 'like', '%' . $request->nombre . '%')
-              ->orWhere('last_name', 'like', '%' . $request->nombre . '%');
-        });
-      }
-
-        if ($request->filled('fecha')) {
-        $query->whereDate('attendance_date', $request->fecha);
-      }
-      
-        $asistencias = $query->orderBy('attendance_date', 'desc')->paginate(20);
-
-        return view('admin.asistencia.historial', compact('asistencias'));
-    }
-
-
     public function aprendiz_index()
     {
         // el usuario logueado está asociado a un registro Person

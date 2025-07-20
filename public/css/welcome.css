@@ -1,73 +1,152 @@
-/* —— Paleta SENA ——————————————————— */
+/* —— Variables Globales ———— */
 :root {
-    --sena-dark: #00361a;
-    --sena-green: #00592d;
-    --sena-light: #e7f5ee;
-    --sena-accent: #ffc107;
+    --primary: #008b4e;
+    --secondary: #00472d;
+    --accent: #00d084;
+    --light: #f9f9f9;
+    --dark: #1a1a1a;
+    --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+    --font: 'Poppins', sans-serif;
 }
 
-/* —— Hero ———————————————————————— */
-.landing-section {
-    background: linear-gradient(
-        130deg,
-        var(--sena-green) 0%,
-        var(--sena-dark) 100%
-    );
-    min-height: 100vh;
+/* —— Body —————————————————— */
+body {
+    font-family: var(--font);
+    background: var(--light);
+    margin: 0;
+    padding: 0;
+    color: var(--dark);
+}
+
+/* —— HERO —————————————————— */
+.hero-section {
+    background: var(--gradient);
+    color: #fff;
+    height: 95vh;
     display: flex;
-    align-items: center;
     justify-content: center;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-.landing-section h1 {
-    font-size: 3.2rem;
-}
-.landing-section .lead {
-    font-size: 1.1rem;
-}
-
-/* —— Info-box ———————————————————— */
-.info-box {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    border: 3px solid transparent;
-}
-.info-box:hover {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
-    border-color: var(--sena-green);
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* —— Botón principal ——————————— */
+/* Efecto animado fondo */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%);
+    top: -100%;
+    left: -100%;
+    animation: moveBg 12s linear infinite;
+}
+@keyframes moveBg {
+    0% { transform: translate(0,0);}
+    100% { transform: translate(50%,50%);}
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    animation: fadeInDown 1.2s ease;
+}
+.hero-section p {
+    font-size: 1.2rem;
+    max-width: 650px;
+    margin: 20px auto;
+    animation: fadeInUp 1.2s ease;
+}
+
 .btn-main {
-    border: 2px solid #fff !important;
-    font-weight: 600;
-    transition: all 0.25s ease;
+    display: inline-block;
+    padding: 14px 36px;
+    background: transparent;
+    border: 3px solid #fff;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 50px;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
 }
 .btn-main:hover {
-    color: var(--sena-dark) !important;
-    background: #fff !important;
-    transform: translateY(-2px);
+    background: #fff;
+    color: var(--secondary);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-/* —— Wave decorativa ——————————— */
+/* —— WAVE separador ——————————— */
 .wave svg {
     display: block;
     width: 100%;
+    margin-top: -2px;
 }
 
-/* —— Tarjetas de módulos ————————— */
-.card.zoom {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    border-width: 0 !important;
+/* —— Features ————————————————— */
+.features-section {
+    padding: 60px 20px;
+    text-align: center;
+    background: var(--light);
 }
-.card.zoom:hover {
-    transform: translateY(-8px) scale(1.03);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.16);
+.features-section h2 {
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--secondary);
 }
-.card-header {
-    font-weight: 700;
-    letter-spacing: 0.4px;
+.info-card {
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
 }
-.card-body {
-    background: var(--sena-light);
+.info-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+.info-card i {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+    animation: bounce 2s infinite;
+}
+@keyframes bounce {
+    0%, 100% { transform: translateY(0);}
+    50% { transform: translateY(-8px);}
+}
+
+/* —— Módulos ————————————————— */
+.modules-section {
+    background: var(--gradient);
+    padding: 80px 20px;
+    text-align: center;
+    color: #fff;
+}
+.modules-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    font-weight: 800;
+}
+.module-card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 30px 20px;
+    transition: all 0.4s ease;
+}
+.module-card:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-12px);
+}
+.module-card .icon {
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 20px;
 }

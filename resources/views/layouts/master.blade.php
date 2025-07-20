@@ -9,7 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Tabler Icons -->
     <link href="https://unpkg.com/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" rel="stylesheet">
+    <!-- Script -->
 
+    <!-- CSS PERSONALIZADO -->
 
     <style>
         :root {
@@ -99,7 +101,7 @@
     <nav class="navbar navbar-expand-lg shadow-sm">
         <div class="container-fluid">
             <!-- Logo -->
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="https://oferta.senasofiaplus.edu.co/sofia-oferta/">
                 <img src="{{ asset('images/logo_sena.png') }}" alt="Logo">
                 INTERNADO
             </a>
@@ -121,7 +123,7 @@
                                 <li><a class="dropdown-item" href="{{ route('admin.asistencia.create') }}"><i
                                             class="ti ti-pencil"></i> Tomar Asistencia</a></li>
                                 <li><a class="dropdown-item" href="{{ route('admin.asistencia.index') }}"><i
-                                            class="ti ti-history"></i> Historial</a></li>
+                                            class="ti ti-history"></i> Historial de Asistencias</a></li>
                             </ul>
                         </li>
 
@@ -144,7 +146,8 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('admin.contra_prestacion.create') }}"><i
                                             class="ti ti-plus"></i> Añadir Horas</a></li>
-                                <li><a class="dropdown-item" href="{{ route('admin.contra_prestacion.index') }}"><i class="ti ti-history"></i> Historial</a>
+                                <li><a class="dropdown-item" href="{{ route('admin.contra_prestacion.index') }}"><i
+                                            class="ti ti-history"></i> Historial de Horas</a>
                                 </li>
                             </ul>
                         </li>
@@ -157,7 +160,7 @@
                                 <li><a class="dropdown-item" href="{{ route('admin.atencion.create') }}"><i
                                             class="ti ti-plus"></i> Añadir Llamado</a></li>
                                 <li><a class="dropdown-item" href="{{ route('admin.atencion.index') }}"><i
-                                            class="ti ti-list-details"></i> Lista de Llamados</a></li>
+                                            class="ti ti-history"></i> Historial de Llamados</a>
                             </ul>
                         </li>
 
@@ -178,10 +181,9 @@
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i
                                     class="ti ti-user-shield"></i> Administradores</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="ti ti-user-plus"></i> Crear
+                                <li><a class="dropdown-item" href="{{ route('admin.register_admin') }}"><i
+                                            class="ti ti-user-plus"></i> Crear
                                         Administrador</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="ti ti-users"></i> Lista de
-                                        Administradores</a></li>
                             </ul>
                         </li>
                     @endif
@@ -199,15 +201,32 @@
                                             class="ti ti-clock"></i> Mis Horas</a></li>
                                 <li><a class="dropdown-item" href="{{ route('aprendiz.atencion.index') }}"><i
                                             class="ti ti-alert-circle"></i> Mis Llamados</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i
+                                    class="ti ti-school"></i> Permisos</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{route('aprendiz.request.create')}}"><i
+                                            class="ti ti-pencil"></i> Crear Permisos</a></li>
+                                <li><a class="dropdown-item"
+                                        href=""><i
+                                            class="ti ti-history"></i> Historial de Permisos</a></li>
+
                             </ul>
                         </li>
                     @endif
                     @auth
-                        {{-- ✅ Botón Cerrar Sesión --}}
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mt-3">
-                            @csrf
-                            <button type="submit" class="btn-logout"><i class="ti ti-logout"></i> Cerrar sesión</button>
-                        </form>
+                        <li class="nav-item">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="nav-link btn btn-link text-danger"
+                                    style="border: none; background: none;">
+                                    <i class="ti ti-logout"></i> Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
                     @endauth
                 </ul>
             </div>

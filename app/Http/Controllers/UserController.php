@@ -17,4 +17,10 @@ class UserController extends Controller
         $user = User::all();
         return view('aprendiz.dashboard', compact('user'));
     }
+
+    public function register_admin()
+    {
+        return view('admin.register_admin');
+    }
+
 }

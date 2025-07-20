@@ -23,7 +23,7 @@
             border-radius: var(--radio);
             box-shadow: var(--sombra);
             margin-bottom: 2rem;
-            border-left: 5px solid #007bff;
+            border-left: 5px solid #2fff00;
             /* Azul para aprendiz */
             display: flex;
             justify-content: space-between;
@@ -39,7 +39,7 @@
 
         .dashboard-header h1 {
             font-size: 1.8rem;
-            color: #007bff;
+            color: #55f435;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -66,7 +66,7 @@
             width: 280px;
             position: relative;
             overflow: hidden;
-            border: 2px solid #007bff;
+            border: 2px solid #1aff00;
         }
 
         .perfil-card::before {
@@ -101,7 +101,7 @@
             margin-top: 0.5rem;
             font-size: 1.2rem;
             font-weight: bold;
-            color: #007bff;
+            color: #48ff00;
         }
 
         .perfil-info {
@@ -117,7 +117,7 @@
         .btn-logout {
             display: block;
             width: 100%;
-            background: #007bff;
+            background: #08af2cbe;
             color: #fff;
             padding: 10px;
             border-radius: var(--radio);
@@ -129,7 +129,7 @@
         }
 
         .btn-logout:hover {
-            background: #0056b3;
+            background: #0ce337;
         }
 
         /* ✅ Cards módulos */
@@ -165,12 +165,12 @@
         }
 
         .btn-azul {
-            border: 2px solid #007bff;
-            color: #007bff;
+            border: 2px solid #26ff00;
+            color: #1a7a10ad;
         }
 
         .btn-azul:hover {
-            background: #007bff;
+            background: #118320;
             color: #fff;
         }
     </style>
@@ -219,7 +219,7 @@
 
             <div class="col-md-4">
                 <div class="card-custom">
-                    <div class="card-header-custom text-warning"><i class="ti ti-hourglass"></i> Horas de Contraprestación
+                    <div class="card-header-custom text-success"><i class="ti ti-hourglass"></i> Horas de Contraprestación
                     </div>
                     <p>Consulta el avance de tus horas acumuladas y los registros de jornada.</p>
                     <a href="{{ route('aprendiz.contra_prestacion.index') }}" class="btn-custom btn-azul w-100">Ver mis
@@ -229,12 +229,13 @@
 
             <div class="col-md-4">
                 <div class="card-custom">
-                    <div class="card-header-custom text-danger"><i class="ti ti-alert-circle"></i> Llamados de Atención
+                    <div class="card-header-custom text-success"><i class="ti ti-alert-circle"></i> Llamados de Atención
                     </div>
-                    <p>Revisa el historial disciplinario asociado a tu perfil.</p>
+                    <p>Revisa el historial disciplinario asociado a tu perfil y tengas un control de tu disciplina.</p>
                     <a href="{{ route('aprendiz.atencion.index') }}" class="btn-custom btn-azul w-100">Ver historial</a>
                 </div>
             </div>
+            
         </div>
     </div>
 @endsection

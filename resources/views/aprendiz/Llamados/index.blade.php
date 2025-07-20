@@ -32,7 +32,7 @@
                     @forelse ($llamados as $llamado)
                         <tr>
                             <td>{{ $loop->iteration + ($llamados->currentPage() - 1) * $llamados->perPage() }}</td>
-                            <td>{{ \Carbon\Carbon::parse($llamado->fecha)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($llamado->date)->format('d/m/Y') }}</td>
                             <td>{{ $llamado->incident }}</td>
                             <td>{{ $llamado->description }}</td>
                             <td>{{ $llamado->observations ?? '—' }}</td>
@@ -40,7 +40,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center">No tienes llamados de atención registrados.</td>
+                            <td colspan="6" class="text-center">No tienes llamados de atención registrados.</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::beginTransaction();
-       // $this->call(UsersTableSeeder::class); // Ejecutar Seeder de reservaciones
+        $this->call(UsersTableSeeder::class); // Ejecutar Seeder de User
+        $this->call(ProgramsTableSeeder::class); // Ejecutar Seeder de Programa
         DB::commit();
     }
 }

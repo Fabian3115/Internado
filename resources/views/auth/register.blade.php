@@ -79,7 +79,7 @@
                                 <label for="number_document" class="form-label">
                                     <i class="fas fa-id-card me-1"></i>Número de documento
                                 </label>
-                                <input id="number_document" type="text" name="number_document"
+                                <input id="number_document" type="number" name="number_document"
                                     class="form-control @error('number_document') is-invalid @enderror"
                                     value="{{ old('number_document') }}" required>
                                 @error('number_document')
@@ -91,7 +91,7 @@
                                 <label for="number_phone" class="form-label">
                                     <i class="fas fa-phone me-1"></i>Teléfono
                                 </label>
-                                <input id="number_phone" type="text" name="number_phone"
+                                <input id="number_phone" type="number" name="number_phone"
                                     class="form-control @error('number_phone') is-invalid @enderror"
                                     value="{{ old('number_phone') }}" required>
                                 @error('number_phone')
