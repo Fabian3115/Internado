@@ -20,4 +20,14 @@ class Request extends Model
         'user_id',
         'comment'
     ];
+
+    public function apprentice()
+    {
+        return $this->belongsTo(Apprentice::class, 'apprentice_id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
 }

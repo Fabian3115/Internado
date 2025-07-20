@@ -11,8 +11,14 @@ class RequestController extends Controller
     public function request_index()
     {
 
-        // Solo muestra las solicitudes del aprendiz autenticado
-        $salidas = ModelsRequest::where('apprentice_id', Auth::id())->get();
+        $apprentice = Auth::user()->apprentice;
+
+        if (!$apprentice) {
+            return redirect()->back()->with('error', 'No se encontró aprendiz asociado a este usuario.');
+        }
+
+        $salidas = ModelsRequest::where('apprentice_id', $apprentice->id)->get();
+
         return view('aprendiz.Permisos.index', compact('salidas'));
     }
 
@@ -30,8 +36,8 @@ class RequestController extends Controller
 
     public function request_store(Request $request)
     {
-        dd($request->all());
         $request->validate([
+            'apprentice_id'   => 'required|exists:apprentices,id',
             'reason'          => 'required|string|max:500',
             'destination'     => 'nullable|string|max:255',
             'observations'    => 'nullable|string|max:1000',
@@ -101,9 +107,17 @@ class RequestController extends Controller
 
         // Actualizar campos
         $salida->update([
-            'status' => 'aprobado',
+            'status' => 'aprobada',
             'user_id' => Auth::id(), // usuario que realiza la acción
         ]);
+
+        return redirect()->route('admin.aprendices.request.index_admin')->with('error', '✅ La salida fue aprobada con éxito.');
+    }
+
+    public function request_destroy($id)
+    {
+        $salida = ModelsRequest::findOrFail($id);
+        $salida->delete();
 
         return redirect()->route('admin.aprendices.request.index_admin')->with('error', '✅ La salida fue aprobada con éxito.');
     }

@@ -124,9 +124,6 @@
                                     <td>{{ $apprentice->Tutor_last_name }}</td>
                                     <td>{{ $apprentice->Tutor_number_phone }}</td>
                                     <td class="text-center">
-                                        <a href="#" class="btn btn-sm btn-outline-info me-1" title="Ver">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
                                         <a href="{{ route('admin.aprendices.edit', $apprentice->id) }}"
                                             class="btn btn-sm btn-outline-warning me-1" title="Editar">
                                             <i class="bi bi-pencil-square"></i>

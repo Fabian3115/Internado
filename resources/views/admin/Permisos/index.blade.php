@@ -131,7 +131,7 @@
                 <tbody>
                     @foreach ($salidas as $salida)
                         <tr>
-                            <td>{{ $salida->apprentice->name }}</td>
+                            <td>{{ $salida->apprentice->person->name }}</td>
                             <td>{{ $salida->reason }}</td>
                             <td>{{ \Carbon\Carbon::parse($salida->departure_date)->format('d/m/Y H:i') }}</td>
                             <td>{{ $salida->return_date ? \Carbon\Carbon::parse($salida->return_date)->format('d/m/Y H:i') : '-' }}
@@ -148,23 +148,25 @@
                             </td>
                             <td class="acciones">
                                 @if ($salida->status == 'pendiente')
-                                    <form action="" method="POST" style="display:inline;">
+                                    <form action="{{ route('admin.aprendices.request.aceptar', $salida->id) }}" method="POST"
+                                        style="display:inline;">
                                         @csrf
-                                        <button type="button" class="btn btn-aprobar btn-approve"
-                                            data-id="{{ $salida->id }}">Aprobar</button>
+                                        <button type="submit" class="btn btn-success btn-approve">
+                                            ✅ Aprobar
+                                        </button>
                                     </form>
-                                    <form action="" method="POST" style="display:inline;">
+
+                                    <form action="{{ route('admin.aprendices.request.rechazar', $salida->id) }}"
+                                        method="POST" style="display:inline;">
                                         @csrf
-                                        <button type="button" class="btn btn-rechazar btn-reject"
-                                            data-id="{{ $salida->id }}">Rechazar</button>
+                                        <button type="submit" class="btn btn-danger btn-reject">
+                                            ❌ Rechazar
+                                        </button>
                                     </form>
+                                @else
+                                    <em class="text-muted">No disponible</em>
                                 @endif
-                                <form action="" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-eliminar btn-delete"
-                                        data-id="{{ $salida->id }}">Eliminar</button>
-                                </form>
+
                             </td>
                         </tr>
                     @endforeach

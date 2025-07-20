@@ -7,6 +7,8 @@
     <title>Gestión de Desplazamiento</title>
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Tabler Icons -->
     <link href="https://unpkg.com/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" rel="stylesheet">
     <!-- Script -->
@@ -186,6 +188,16 @@
                                         Administrador</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i
+                                    class="ti ti-school"></i> Permisos</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                        href="{{route('admin.aprendices.request.index_admin')}}"><i
+                                            class="ti ti-history"></i>Permisos</a></li>
+
+                            </ul>
+                        </li>
                     @endif
 
                     @if (Auth::user()->role === 'aprendiz')
@@ -211,7 +223,7 @@
                                 <li><a class="dropdown-item" href="{{route('aprendiz.request.create')}}"><i
                                             class="ti ti-pencil"></i> Crear Permisos</a></li>
                                 <li><a class="dropdown-item"
-                                        href=""><i
+                                        href="{{route('aprendiz.request.index')}}"><i
                                             class="ti ti-history"></i> Historial de Permisos</a></li>
 
                             </ul>

@@ -1,59 +1,94 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="mb-0">Editar Registro de Horas</h1>
-            <a href="{{ route('admin.contra_prestacion.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left me-1"></i> Volver
-            </a>
-        </div>
+    {{-- Estilos personalizados --}}
+    <link rel="stylesheet" href="{{ asset('css/de-todito/attendance.css') }}">
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+    {{-- SweetAlert para éxito --}}
+    <script>
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: '¡Actualización Exitosa!',
+                text: @json(session('success')),
+                confirmButtonText: 'Perfecto',
+                confirmButtonColor: '#2c5f2d'
+            });
         @endif
+    </script>
 
-        <form action="{{ route('admin.contra_prestacion.update', $hora->id) }}" method="POST" class="card p-4 shadow">
-            @csrf
-            @method('PUT')
-
-            <div class="mb-3">
-                <label for="apprentice_id" class="form-label">Aprendiz</label>
-                <select name="apprentice_id" id="apprentice_id" class="form-select" required>
-                    @foreach ($aprendices as $aprendiz)
-                        <option value="{{ $aprendiz->id }}" {{ $hora->apprentice_id == $aprendiz->id ? 'selected' : '' }}>
-                            {{ $aprendiz->person->full_name ?? $aprendiz->person->name . ' ' . $aprendiz->person->last_name }}
-                        </option>
-                    @endforeach
-                </select>
+    <div class="background-image">
+        <div class="form-wrapper">
+            {{-- Encabezado --}}
+            <div class="form-header">
+                <h1>✏️ Editar Registro de Horas</h1>
+                <p>Modifica los datos del registro seleccionado</p>
             </div>
 
-            <div class="mb-3">
-                <label for="hours" class="form-label">Horas</label>
-                <input type="number" name="hours" id="hours" class="form-control" value="{{ old('hours', $hora->hours) }}" required min="1" step="1">
+            {{-- Botón para volver --}}
+            <div class="form-actions">
+                <a href="{{ route('admin.contra_prestacion.index') }}" class="btn btn-primary">
+                    ← Volver al listado
+                </a>
             </div>
 
-            <div class="mb-3">
-                <label for="activity_date" class="form-label">Fecha de Actividad</label>
-                <input type="date" name="activity_date" id="activity_date" class="form-control" value="{{ old('activity_date', $hora->activity_date) }}" required>
-            </div>
+            {{-- Errores de validación --}}
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                <br>
+            @endif
 
-            <div class="mb-3">
-                <label for="activity_description" class="form-label">Descripción de la Actividad</label>
-                <textarea name="activity_description" id="activity_description" class="form-control" rows="4">{{ old('activity_description', $hora->activity_description) }}</textarea>
-            </div>
+            {{-- Formulario de Edición --}}
+            <form action="{{ route('admin.contra_prestacion.update', $hora->id) }}" method="POST" class="needs-validation" novalidate>
+                @csrf
+                @method('PUT')
 
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save me-1"></i> Actualizar
+                {{-- Aprendiz --}}
+                <div class="form-group">
+                    <label for="apprentice_id">👨‍🎓 Aprendiz</label>
+                    <select name="apprentice_id" id="apprentice_id" required>
+                        @foreach ($aprendices as $aprendiz)
+                            <option value="{{ $aprendiz->id }}"
+                                {{ $hora->apprentice_id == $aprendiz->id ? 'selected' : '' }}>
+                                {{ $aprendiz->person->full_name ?? 'Sin nombre' }} --
+                                {{ $aprendiz->program->technical_sheet ?? 'Sin Ficha' }} --
+                                {{ $aprendiz->program->initials ?? 'Sin Sigla' }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- Horas --}}
+                <div class="form-group">
+                    <label for="hours">⏳ Horas Registradas</label>
+                    <input type="number" step="0.1" min="1" name="hours" id="hours"
+                        value="{{ old('hours', $hora->hours) }}" required>
+                </div>
+
+                {{-- Fecha de actividad --}}
+                <div class="form-group">
+                    <label for="activity_date">📅 Fecha de la Actividad</label>
+                    <input type="date" name="activity_date" id="activity_date"
+                        value="{{ old('activity_date', $hora->activity_date) }}" required>
+                </div>
+
+                {{-- Descripción --}}
+                <div class="form-group">
+                    <label for="activity_description">📝 Descripción de la Actividad</label>
+                    <textarea name="activity_description" id="activity_description" rows="4" required>{{ old('activity_description', $hora->activity_description) }}</textarea>
+                </div>
+
+                {{-- Botón Actualizar --}}
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save me-1"></i> Actualizar Registro
                 </button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 @endsection

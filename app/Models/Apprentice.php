@@ -42,4 +42,8 @@ class Apprentice extends Model
     {
         return $this->hasMany(CounterPrestation::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'person_id', 'person_id');
+    }
 }

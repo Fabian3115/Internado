@@ -96,7 +96,7 @@
         @csrf
 
         <!-- Campo oculto con el ID del aprendiz -->
-        <input type="hidden" name="apprentice_id" value="{{ Auth::id() }}">
+        <input type="hidden" name="apprentice_id" value="{{ Auth::user()->apprentice->id ?? '' }}">
 
         <!-- Motivo -->
         <div class="form-group">

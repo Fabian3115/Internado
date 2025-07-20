@@ -27,7 +27,7 @@
 
             {{-- Botón volver al listado --}}
             <div class="form-actions">
-                <a href="{{ route('incidents.index') }}" class="btn btn-primary">← Volver al listado</a>
+                <a href="{{ route('admin.atencion.index') }}" class="btn btn-primary">← Volver al listado</a>
             </div>
 
             {{-- Errores de validación --}}
@@ -43,7 +43,7 @@
             @endif
 
             {{-- Formulario --}}
-            <form action="{{ route('incidents.update', $incident->id) }}" method="POST" class="needs-validation" novalidate>
+            <form action="{{ route('admin.atencion.update', $llamado->id) }}" method="POST" class="needs-validation" novalidate>
                 @csrf
                 @method('PUT')
 
@@ -53,7 +53,7 @@
                     <select name="apprentice_id" id="apprentice_id" required>
                         @foreach ($aprendices as $aprendiz)
                             <option value="{{ $aprendiz->id }}"
-                                {{ old('apprentice_id', $incident->apprentice_id) == $aprendiz->id ? 'selected' : '' }}>
+                                {{ old('apprentice_id', $llamado->apprentice_id) == $aprendiz->id ? 'selected' : '' }}>
                                 {{ $aprendiz->person->full_name ?? 'Sin nombre' }}
                             </option>
                         @endforeach
@@ -64,30 +64,30 @@
                 <div class="form-group">
                     <label for="date">📅 Fecha del Incidente</label>
                     <input type="date" name="date" id="date"
-                           value="{{ old('date', $incident->date->format('Y-m-d')) }}" required>
+                           value="{{ old('date', \Carbon\Carbon::parse($llamado->date)->format('Y-m-d')) }}" required>
                 </div>
 
                 {{-- Tipo de incidente --}}
                 <div class="form-group">
                     <label for="incident">⚠️ Tipo de Incidente</label>
                     <input type="text" name="incident" id="incident"
-                           value="{{ old('incident', $incident->incident) }}" required>
+                           value="{{ old('incident', $llamado->incident) }}" required>
                 </div>
 
                 {{-- Descripción --}}
                 <div class="form-group">
                     <label for="description">📝 Descripción</label>
-                    <textarea name="description" id="description" rows="3" required>{{ old('description', $incident->description) }}</textarea>
+                    <textarea name="description" id="description" rows="3" required>{{ old('description', $llamado->description) }}</textarea>
                 </div>
 
                 {{-- Observaciones --}}
                 <div class="form-group">
                     <label for="observations">🔍 Observaciones</label>
-                    <textarea name="observations" id="observations" rows="3">{{ old('observations', $incident->observations) }}</textarea>
+                    <textarea name="observations" id="observations" rows="3">{{ old('observations', $llamado->observations) }}</textarea>
                 </div>
 
                 {{-- recorded_by (oculto) --}}
-                <input type="hidden" name="recorded_by" value="{{ $incident->recorded_by }}">
+                <input type="hidden" name="recorded_by" value="{{ $llamado->recorded_by }}">
 
                 {{-- Botón Actualizar --}}
                 <button type="submit" class="submit-btn">

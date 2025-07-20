@@ -126,6 +126,7 @@ Route::middleware(['auth', 'role:aprendiz'])->group(function () {
         Route::get('/Salida-internado/create', [RequestController::class, 'request_create'])->name('aprendiz.request.create');
         Route::post('/Salida-internado/store', [RequestController::class, 'request_store'])->name('aprendiz.request.store');
         Route::get('/Salida-internado/edit/{id}', [RequestController::class, 'request_edit'])->name('aprendiz.request.edit');
+        Route::get('/Salida-internado/destroy/{id}', [RequestController::class, 'request_destroy'])->name('aprendiz.request.delete');
     });
 });
 
