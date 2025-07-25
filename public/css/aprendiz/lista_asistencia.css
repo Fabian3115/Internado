@@ -1,0 +1,140 @@
+:root {
+    --verde-sena: #39a900;
+    --gris-fondo: #f4f6f8;
+    --blanco: #ffffff;
+    --gris-oscuro: #333;
+}
+
+body {
+    background-color: var(--gris-fondo);
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.card-custom {
+    border-radius: 15px;
+    background: var(--blanco);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.card-header-custom {
+    background: var(--verde-sena);
+    color: var(--blanco);
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-header-custom i {
+    margin-right: 10px;
+}
+
+.table-hover tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #e8f5e9;
+}
+
+.estado-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    padding: 8px 14px;
+    border-radius: 25px;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.6s ease-in-out;
+    transition: transform 0.3s ease;
+}
+
+.estado-badge i {
+    font-size: 1rem;
+    animation: pulse 1.5s infinite;
+}
+
+/* Colores personalizados */
+.presente {
+    background: linear-gradient(135deg, #39a900, #4cd137);
+}
+
+.ausente {
+    background: linear-gradient(135deg, #e84118, #ff6b6b);
+}
+
+.justificado {
+    background: linear-gradient(135deg, #fbc531, #f5cd79);
+    color: #333;
+}
+
+/* Hover Efecto */
+.estado-badge:hover {
+    transform: scale(1.08);
+}
+
+/* Animación de pulso para el ícono */
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+.pagination-custom {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+}
+
+.pagination-custom .page-item .page-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #fff;
+    color: #39a900;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.pagination-custom .page-item .page-link:hover {
+    background-color: #39a900;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.pagination-custom .page-item.active .page-link {
+    background-color: #39a900;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(57, 169, 0, 0.4);
+}
+
+.pagination-custom .page-item.disabled .page-link {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

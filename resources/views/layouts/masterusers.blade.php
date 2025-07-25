@@ -54,8 +54,8 @@
         <p>&copy; 2023-2025 <a href="#">Internado</a> | Aprendices SENA ADSO - <a href="#">Ficha 2847386</a></p>
         <div class="footer-social">
             <a href="https://www.facebook.com/torres3115"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/torr.es31105/"><i class="fab fa-instagram"></i></a>
+            <a href="https://github.com/Fabian3115"><i class="fab fa-github"></i></a>
         </div>
     </footer>
 

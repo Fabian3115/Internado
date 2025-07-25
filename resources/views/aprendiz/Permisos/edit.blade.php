@@ -1,98 +1,13 @@
 @extends('layouts.master')
 
+{{-- Estilos personalizados --}}
+<link rel="stylesheet" href="{{ asset('css/aprendiz/permisos/edit.css') }}">
+
 @section('content')
-<style>
-    :root {
-        --verde-sena: #39A900;
-        --verde-oscuro: #2E7D32;
-        --gris-fondo: #f4f6f8;
-        --blanco: #ffffff;
-        --sombra: 0 6px 12px rgba(0, 0, 0, 0.15);
-        --radio: 12px;
-    }
-
-    body {
-        background-color: var(--gris-fondo);
-    }
-
-    .container-permiso {
-        max-width: 650px;
-        margin: 50px auto;
-        background: linear-gradient(135deg, var(--verde-sena), #6bcf3f);
-        border-radius: var(--radio);
-        padding: 25px;
-        box-shadow: var(--sombra);
-        color: var(--blanco);
-        font-family: 'Segoe UI', sans-serif;
-    }
-
-    .container-permiso h2 {
-        text-align: center;
-        margin-bottom: 20px;
-        font-weight: 700;
-        letter-spacing: 1px;
-    }
-
-    .form-group label {
-        font-weight: 600;
-        margin-bottom: 6px;
-        display: block;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: var(--radio);
-        margin-bottom: 15px;
-        font-size: 15px;
-        color: #333;
-    }
-
-    .form-control:focus {
-        outline: none;
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    }
-
-    textarea.form-control {
-        resize: none;
-        height: 100px;
-    }
-
-    .btn-actualizar {
-        display: block;
-        width: 100%;
-        padding: 14px;
-        border: none;
-        border-radius: var(--radio);
-        background-color: var(--blanco);
-        color: var(--verde-sena);
-        font-weight: 700;
-        font-size: 16px;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .btn-actualizar:hover {
-        background-color: #10cdb7;
-        transform: scale(1.03);
-        color: #000;
-    }
-
-    /* Animación */
-    .container-permiso {
-        animation: fadeInUp 0.8s ease;
-    }
-
-    @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(40px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-</style>
-
 <div class="container-permiso">
     <h2>Editar Solicitud de Salida</h2>
-    <form action="" method="POST">
+    <p>Por favor, completa el formulario para editar tu solicitud de salida.</p>
+    <form action="{{route('aprendiz.request.update', $salida->id)}}" method="POST">
         @csrf
         @method('PUT')
 
@@ -131,9 +46,6 @@
             <label for="observaciones">Observaciones (opcional):</label>
             <textarea id="observaciones" name="observations" class="form-control">{{ old('observations', $salida->observations) }}</textarea>
         </div>
-
-        <!-- Estado inicial -->
-        <input type="hidden" name="status" value="pendiente">
 
         <!-- Botón -->
         <button type="submit" class="btn-actualizar">Actualizar Solicitud</button>

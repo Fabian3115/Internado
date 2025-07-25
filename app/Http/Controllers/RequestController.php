@@ -64,14 +64,9 @@ class RequestController extends Controller
     {
         $salida = ModelsRequest::findOrFail($id);
 
-        // Opcional: comprobar que el usuario es dueño de la salida
-        if (Auth::id() !== $salida->apprentice_id && Auth::user()->role !== 'aprendiz') {
-            abort(403, 'No tienes permiso para editar esta solicitud.');
-        }
-
         $request->validate([
             'reason'          => 'required|string|max:500',
-            'departure_date'  => 'required|date|after:now',
+            'departure_date'  => 'required|date',
             'return_date'     => 'nullable|date|after:departure_date',
             'destination'     => 'nullable|string|max:255',
             'observations'    => 'nullable|string|max:1000',

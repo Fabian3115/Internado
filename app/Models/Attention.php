@@ -16,10 +16,14 @@ class Attention extends Model
         'observations',
         'recorded_by',
     ];
-    
+
     public function apprentice()
     {
         return $this->belongsTo(Apprentice::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'recorded_by');
     }
 
 }

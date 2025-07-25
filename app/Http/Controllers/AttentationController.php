@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Apprentice;
 use App\Models\Attention;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,13 +21,14 @@ class AttentationController extends Controller
     public function aprendiz_index()
     {
         $personId = Auth::user()->person_id;
+        $user = User::all();
 
         $llamados = Attention::with('apprentice.person') // Ajusta si usas otro nombre de modelo
             ->whereHas('apprentice', fn($q) => $q->where('person_id', $personId))
             ->latest()
             ->paginate(10);
 
-        return view('aprendiz.Llamados.index', compact('llamados'));
+        return view('aprendiz.Llamados.index', compact('llamados', 'user'));
     }
     public function create()
     {

@@ -1,0 +1,100 @@
+:root {
+    --verde-sena: #39a900;
+    --gris-fondo: #f4f6f8;
+    --blanco: #ffffff;
+}
+
+body {
+    background-color: var(--gris-fondo);
+}
+
+.card-custom {
+    background: var(--blanco);
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.card-header-custom {
+    background: var(--verde-sena);
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-align: center;
+    padding: 15px;
+}
+
+.table-hover tbody tr {
+    transition: all 0.3s ease;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #e8f5e9;
+    transform: scale(1.02);
+}
+
+/* Badge para horas destacadas */
+.badge-horas {
+    background: var(--verde-sena);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 8px rgba(57, 169, 0, 0.2);
+}
+
+.badge-horas i {
+    font-size: 1.2rem;
+}
+
+.pagination-custom {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+}
+
+.pagination-custom .page-item .page-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--verde-sena);
+    font-weight: bold;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.pagination-custom .page-item .page-link:hover {
+    background-color: var(--verde-sena);
+    color: #fff;
+    transform: scale(1.15);
+}
+
+.pagination-custom .active .page-link {
+    background-color: var(--verde-sena);
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(57, 169, 0, 0.4);
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

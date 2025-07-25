@@ -51,9 +51,13 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Person::class);
     }
-    
+
     public function apprentice()
     {
         return $this->hasOne(Apprentice::class, 'person_id', 'person_id');
+    }
+    public function attentions()
+    {
+        return $this->hasMany(Attention::class, 'recorded_by');
     }
 }
