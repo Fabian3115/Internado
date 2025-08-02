@@ -1,90 +1,79 @@
 @extends('layouts.master')
 
 @section('content')
-    {{-- Reutilizamos los estilos --}}
-    <link rel="stylesheet" href="{{ asset('css/de-todito/attendance.css') }}">
+<link rel="stylesheet" href="{{ asset('css/de-todito/attendance.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- SweetAlert para mensaje de éxito --}}
+@if (session('success'))
     <script>
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Registro Exitoso',
-                text: @json(session('success')),
-                confirmButtonText: 'Entendido',
-                confirmButtonColor: '#2c5f2d'
-            });
-        @endif
+        Swal.fire({
+            icon: 'success',
+            title: 'Registro Exitoso',
+            text: @json(session('success')),
+            confirmButtonColor: '#2c5f2d'
+        });
     </script>
+@endif
 
-    <div class="background-image">
-        <div class="form-wrapper">
-            {{-- Encabezado --}}
-            <div class="form-header">
-                <h1>⏰ Registrar Horas de Servicio</h1>
-                <p>Ingresa la información de la actividad realizada</p>
-            </div>
-
-            {{-- Botón para volver al listado --}}
-            <div class="form-actions">
-                <a href="{{ route('admin.contra_prestacion.index') }}" class="btn btn-primary">← Volver al listado</a>
-            </div>
-
-            {{-- Errores de validación --}}
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                <br>
-            @endif
-
-            {{-- Formulario --}}
-            <form action="{{ route('admin.contra_prestacion.store') }}" method="POST" class="needs-validation" novalidate>
-                @csrf
-
-                {{-- Aprendiz --}}
-                <div class="form-group">
-                    <label for="apprentice_id">👨‍🎓 Aprendiz</label>
-                    <select name="apprentice_id" id="apprentice_id" required>
-                        <option value="" selected disabled>Seleccione un aprendiz</option>
-                        @foreach ($aprendices as $aprendiz)
-                            <option value="{{ $aprendiz->id }}"
-                                {{ old('apprentice_id') == $aprendiz->id ? 'selected' : '' }}>
-                                {{ $aprendiz->person->full_name ?? 'Sin nombre' }} --
-                                {{ $aprendiz->program->technical_sheet ?? 'Sin Ficha' }} --
-                                {{ $aprendiz->program->initials ?? 'Sin Sigla' }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                {{-- Horas registradas --}}
-                <div class="form-group">
-                    <label for="hours">⏳ Horas Registradas</label>
-                    <input type="number" step="0.1" min="0" name="hours" id="hours"
-                        value="{{ old('hours') }}" required>
-                </div>
-
-                {{-- Fecha de la actividad --}}
-                <div class="form-group">
-                    <label for="activity_date">📅 Fecha de la Actividad</label>
-                    <input type="date" name="activity_date" id="activity_date"
-                        value="{{ old('activity_date', now()->toDateString()) }}" required>
-                </div>
-
-                {{-- Campos ocultos --}}
-                <input type="hidden" name="total_hours" value="0">
-                <input type="hidden" name="recorded_by" value="{{ Auth::id() }}">
-
-                {{-- Botón Guardar --}}
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-save me-1"></i> Guardar
-                </button>
-            </form>
+<section class="asistencia-section">
+    <div class="asistencia-card animated fadeIn">
+        <div class="asistencia-header">
+            <h2>⏰ Registrar Horas de Servicio</h2>
+            <p>Ingresa los datos de la actividad realizada por el aprendiz.</p>
         </div>
+
+        <div class="volver-link">
+            <a href="{{ route('admin.contra_prestacion.index') }}">
+                <i class="fas fa-arrow-left"></i> Volver al listado
+            </a>
+        </div>
+
+        @if ($errors->any())
+            <div class="alerta-error animated slideInDown">
+                <ul>
+                    @foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('admin.contra_prestacion.store') }}" method="POST" class="asistencia-form">
+            @csrf
+
+            {{-- Aprendiz --}}
+            <div class="form-group">
+                <label for="apprentice_id">👨‍🎓 Aprendiz</label>
+                <select name="apprentice_id" required>
+                    <option value="" disabled selected>Seleccione un aprendiz</option>
+                    @foreach ($aprendices as $aprendiz)
+                        <option value="{{ $aprendiz->id }}" {{ old('apprentice_id') == $aprendiz->id ? 'selected' : '' }}>
+                            {{ $aprendiz->person->full_name ?? 'Sin nombre' }} -
+                            {{ $aprendiz->program->technical_sheet ?? 'Sin ficha' }} -
+                            {{ $aprendiz->program->initials ?? 'Sin sigla' }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- Horas --}}
+            <div class="form-group">
+                <label for="hours">⏳ Horas Registradas</label>
+                <input type="number" name="hours" step="0.1" min="0" value="{{ old('hours') }}" required>
+            </div>
+
+            {{-- Fecha --}}
+            <div class="form-group">
+                <label for="activity_date">📅 Fecha de Actividad</label>
+                <input type="date" name="activity_date" value="{{ old('activity_date', now()->toDateString()) }}" required>
+            </div>
+
+            {{-- Ocultos --}}
+            <input type="hidden" name="total_hours" value="0">
+            <input type="hidden" name="recorded_by" value="{{ Auth::id() }}">
+
+            <button type="submit" class="btn-registrar">
+                <i class="fas fa-save"></i> Guardar Horas
+            </button>
+        </form>
     </div>
+</section>
 @endsection

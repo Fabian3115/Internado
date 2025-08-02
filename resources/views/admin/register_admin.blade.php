@@ -2,7 +2,6 @@
 
     <link rel="stylesheet" href="{{ asset('css/auth/register.css') }}">
 
-
 @section('content')
     <div class="register-page py-4">
         <div class="container">

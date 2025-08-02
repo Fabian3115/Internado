@@ -1,78 +1,72 @@
 @extends('layouts.master')
 
 @section('content')
-    {{-- CSS del formulario --}}
-    <link rel="stylesheet" href="{{ asset('css/de-todito/attendance.css') }}">
+<link rel="stylesheet" href="{{ asset('css/de-todito/attendance.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- Alerta SweetAlert si hubo éxito --}}
+@if (session('success'))
     <script>
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Creado',
-                text: @json(session('success')),
-                confirmButtonText: 'Aceptar',
-                confirmButtonColor: '#00A859'
-            });
-        @endif
+        Swal.fire({
+            icon: 'success',
+            title: 'Asistencia registrada',
+            text: @json(session('success')),
+            confirmButtonColor: '#00A859'
+        });
     </script>
+@endif
 
-    {{-- ===== Contenido principal ===== --}}
-    <div class="background-image">
-        <div class="form-wrapper">
-            <div class="form-header">
-                <h1>📋 Registrar Asistencia</h1>
-                <p>Completa la información relacionada con la asistencia del aprendiz</p>
-            </div>
-
-            <div class="form-actions">
-                <a href="{{ route('admin.asistencia.index') }}" class="btn btn-primary">← Volver al listado</a>
-            </div>
-
-            <form action="{{ route('admin.asistencia.store') }}" method="POST">
-                @csrf
-
-                {{-- Aprendiz --}}
-                <div class="form-group">
-                    <label for="apprentice_id">👨‍🎓 Aprendiz</label>
-                    <select name="apprentice_id" id="apprentice_id" required>
-                        <option value="" disabled selected>Seleccione un aprendiz</option>
-                        @foreach ($aprendices as $aprendiz)
-                            <option value="{{ $aprendiz->id }}">
-                                {{ $aprendiz->person->full_name ?? 'Sin nombre' }} --
-                                {{ $aprendiz->program->technical_sheet ?? 'Sin Ficha' }} --
-                                {{ $aprendiz->program->initials ?? 'Sin Sigla' }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                {{-- Fecha de asistencia --}}
-                <div class="form-group">
-                    <label for="attendance_date">📅 Fecha</label>
-                    <input type="date" name="attendance_date" id="attendance_date" required>
-                </div>
-
-                {{-- Estado de asistencia --}}
-                <div class="form-group">
-                    <label for="attendance_status">📌 Estado</label>
-                    <select name="attendance_status" id="attendance_status" required>
-                        <option value="" disabled selected>Seleccione el estado</option>
-                        <option value="Presente">Presente</option>
-                        <option value="Ausente">Ausente</option>
-                        <option value="Justificado">Justificado</option>
-                    </select>
-                </div>
-
-                {{-- Justificación --}}
-                <div class="form-group">
-                    <label for="justification">📝 Justificación</label>
-                    <textarea name="justification" id="justification" rows="3" placeholder="Ingrese una justificación si aplica"></textarea>
-                </div>
-
-                {{-- Botón de envío --}}
-                <button type="submit" class="submit-btn">Guardar Asistencia</button>
-            </form>
+<section class="asistencia-section">
+    <div class="asistencia-card animated fadeIn">
+        <div class="asistencia-header">
+            <h2>📋 Registro de Asistencia</h2>
+            <p>Llena el siguiente formulario para guardar la asistencia de un aprendiz.</p>
         </div>
+
+        <div class="volver-link">
+            <a href="{{ route('admin.asistencia.index') }}"><i class="fas fa-arrow-left"></i> Volver al listado</a>
+        </div>
+
+        <form action="{{ route('admin.asistencia.store') }}" method="POST" class="asistencia-form">
+            @csrf
+
+            <div class="form-group">
+                <label for="apprentice_id">👨‍🎓 Aprendiz</label>
+                <select name="apprentice_id" required>
+                    <option disabled selected>Seleccione un aprendiz</option>
+                    @foreach ($aprendices as $aprendiz)
+                        <option value="{{ $aprendiz->id }}">
+                            {{ $aprendiz->person->full_name ?? 'Sin nombre' }} -
+                            {{ $aprendiz->program->technical_sheet ?? 'Sin ficha' }} -
+                            {{ $aprendiz->program->initials ?? 'Sin sigla' }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="attendance_date">📅 Fecha</label>
+                <input type="date" name="attendance_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="attendance_status">📌 Estado</label>
+                <select name="attendance_status" required>
+                    <option disabled selected>Seleccione el estado</option>
+                    <option value="Presente">Presente</option>
+                    <option value="Ausente">Ausente</option>
+                    <option value="Justificado">Justificado</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="justification">📝 Justificación</label>
+                <textarea name="justification" rows="3" placeholder="Ingrese una justificación si aplica..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-registrar">
+                <i class="fas fa-save"></i> Guardar Asistencia
+            </button>
+        </form>
     </div>
+</section>
 @endsection

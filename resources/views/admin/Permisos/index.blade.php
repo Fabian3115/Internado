@@ -1,103 +1,9 @@
 @extends('layouts.master')
 
+<link rel="stylesheet" href="{{ asset('css/admin/lista_admin_permisos.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @section('content')
-    <style>
-        :root {
-            --verde-sena: #39A900;
-            --gris-fondo: #f4f6f8;
-            --blanco: #ffffff;
-            --sombra: 0 4px 10px rgba(0, 0, 0, 0.1);
-            --radio: 12px;
-        }
-
-        body {
-            background-color: var(--gris-fondo);
-        }
-
-        .container-admin {
-            max-width: 1200px;
-            margin: 40px auto;
-            background: var(--blanco);
-            border-radius: var(--radio);
-            box-shadow: var(--sombra);
-            padding: 20px;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .titulo-admin {
-            text-align: center;
-            color: var(--verde-sena);
-            font-weight: bold;
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 12px 15px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-            font-size: 14px;
-        }
-
-        th {
-            background-color: var(--verde-sena);
-            color: var(--blanco);
-            text-transform: uppercase;
-        }
-
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        .acciones {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn {
-            padding: 6px 12px;
-            border-radius: var(--radio);
-            font-size: 13px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-aprobar {
-            background-color: #43a047;
-            color: white;
-        }
-
-        .btn-aprobar:hover {
-            background-color: #2e7d32;
-        }
-
-        .btn-rechazar {
-            background-color: #e53935;
-            color: white;
-        }
-
-        .btn-rechazar:hover {
-            background-color: #c62828;
-        }
-
-        .btn-eliminar {
-            background-color: #757575;
-            color: white;
-        }
-
-        .btn-eliminar:hover {
-            background-color: #424242;
-        }
-    </style>
 
     <div class="container-admin">
         @if (session('success'))
@@ -111,6 +17,7 @@
                 });
             </script>
         @endif
+
         <h2 class="titulo-admin">Gestión de Solicitudes de Salida</h2>
 
         @if ($salidas->isEmpty())
@@ -131,7 +38,11 @@
                 <tbody>
                     @foreach ($salidas as $salida)
                         <tr>
-                            <td>{{ $salida->apprentice->person->name }}</td>
+                            <td class="text-start d-flex align-items-center gap-2">
+                                <img src="{{ asset($salida->apprentice->user->profile_photo_path ?? 'modules/gdf/images/Photo/prueba.jpg') }}"
+                                    alt="Foto del Aprendiz" class="mini-avatar-admin">
+                                <span>{{ $salida->apprentice->person->name }} {{ $salida->apprentice->person->last_name }}</span>
+                            </td>
                             <td>{{ $salida->reason }}</td>
                             <td>{{ \Carbon\Carbon::parse($salida->departure_date)->format('d/m/Y H:i') }}</td>
                             <td>{{ $salida->return_date ? \Carbon\Carbon::parse($salida->return_date)->format('d/m/Y H:i') : '-' }}
@@ -141,32 +52,20 @@
                                 @if ($salida->status == 'pendiente')
                                     <span style="color: orange; font-weight:bold;">Pendiente</span>
                                 @elseif($salida->status == 'aprobada')
-                                    <span style="color: green; font-weight:bold;">Aprobada</span>
+                                    <span style="color: green; font-weight:bold;">✅ Aprobada</span>
                                 @else
-                                    <span style="color: red; font-weight:bold;">Rechazada</span>
+                                    <span style="color: red; font-weight:bold;">❌ Rechazada</span>
                                 @endif
                             </td>
                             <td class="acciones">
                                 @if ($salida->status == 'pendiente')
-                                    <form action="{{ route('admin.aprendices.request.aceptar', $salida->id) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-success btn-approve">
-                                            ✅ Aprobar
-                                        </button>
-                                    </form>
-
-                                    <form action="{{ route('admin.aprendices.request.rechazar', $salida->id) }}"
-                                        method="POST" style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-reject">
-                                            ❌ Rechazar
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-aprobar" data-id="{{ $salida->id }}">✅
+                                        Aprobar</button>
+                                    <button type="button" class="btn btn-rechazar" data-id="{{ $salida->id }}">❌
+                                        Rechazar</button>
                                 @else
                                     <em class="text-muted">No disponible</em>
                                 @endif
-
                             </td>
                         </tr>
                     @endforeach
@@ -174,10 +73,12 @@
             </table>
         @endif
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
             // Aprobar
-            document.querySelectorAll('.btn-approve').forEach(button => {
+            document.querySelectorAll('.btn-aprobar').forEach(button => {
                 button.addEventListener('click', function() {
                     let id = this.dataset.id;
                     Swal.fire({
@@ -200,8 +101,8 @@
                 });
             });
 
-            // Rechazar con comentario
-            document.querySelectorAll('.btn-reject').forEach(button => {
+            // Rechazar con motivo
+            document.querySelectorAll('.btn-rechazar').forEach(button => {
                 button.addEventListener('click', function() {
                     let id = this.dataset.id;
                     Swal.fire({
@@ -230,30 +131,6 @@
                 });
             });
 
-            // Eliminar
-            document.querySelectorAll('.btn-delete').forEach(button => {
-                button.addEventListener('click', function() {
-                    let id = this.dataset.id;
-                    Swal.fire({
-                        title: '¿Eliminar esta solicitud?',
-                        text: "No podrás revertir esta acción",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#757575',
-                        confirmButtonText: 'Sí, eliminar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            fetch(`/salidas/${id}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                }
-                            }).then(() => location.reload());
-                        }
-                    });
-                });
-            });
         });
     </script>
 

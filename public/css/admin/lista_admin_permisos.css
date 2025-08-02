@@ -1,0 +1,111 @@
+:root {
+    --verde-sena: #39a900;
+    --gris-fondo: #f4f6f8;
+    --blanco: #ffffff;
+    --sombra: 0 4px 10px rgba(0, 0, 0, 0.1);
+    --radio: 12px;
+}
+
+body {
+    background-color: var(--gris-fondo);
+}
+
+.container-admin {
+    max-width: 1200px;
+    margin: 40px auto;
+    background: var(--blanco);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 20px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.titulo-admin {
+    text-align: center;
+    color: var(--verde-sena);
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+th {
+    background-color: var(--verde-sena);
+    color: var(--blanco);
+    text-transform: uppercase;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+.acciones {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn {
+    padding: 6px 12px;
+    border-radius: var(--radio);
+    font-size: 13px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-aprobar {
+    background-color: #30bf37 !important;
+    color: rgb(0, 0, 0) !important;
+}
+
+.btn-aprobar:hover {
+    background-color: #2e7d32 !important;
+}
+
+.btn-rechazar {
+    background-color: #e53935 !important;
+    color: white !important;
+}
+
+.btn-rechazar:hover {
+    background-color: #c62828 !important;
+}
+
+.btn-eliminar {
+    background-color: #757575 !important;
+    color: white !important;
+}
+
+.btn-eliminar:hover {
+    background-color: #424242 !important;
+}
+
+.mini-avatar-admin {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--verde-sena);
+    background-color: white;
+}
+th{
+    text-align: center !important;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--blanco);
+    text-transform: uppercase;
+}
